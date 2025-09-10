@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #FFB6C1; /* light-pink */
+  --color-primary-50: #FEF7F7; /* very-light-pink */
+  --color-primary-100: #FDE8E8; /* lighter-pink */
+  --color-primary-200: #FBD5D5; /* light-pink-200 */
+  --color-primary-300: #F8B4B4; /* pink-300 */
+  --color-primary-400: #F687B3; /* pink-400 */
+  --color-primary-500: #FFB6C1; /* light-pink-base */
+  --color-primary-600: #E879A6; /* medium-pink */
+  --color-primary-700: #D53F8C; /* darker-pink */
+  --color-primary-800: #B83280; /* deep-pink */
+  --color-primary-900: #97266D; /* darkest-pink */
+
+  /* Secondary Colors */
+  --color-secondary: #FFC0CB; /* soft-pink */
+  --color-secondary-50: #FEF8F8; /* very-light-soft-pink */
+  --color-secondary-100: #FDEAEA; /* lighter-soft-pink */
+  --color-secondary-200: #FBD6D6; /* light-soft-pink */
+  --color-secondary-300: #F8BFBF; /* soft-pink-300 */
+  --color-secondary-400: #F5A3A3; /* soft-pink-400 */
+  --color-secondary-500: #FFC0CB; /* soft-pink-base */
+  --color-secondary-600: #E8A4B0; /* medium-soft-pink */
+  --color-secondary-700: #D18895; /* darker-soft-pink */
+  --color-secondary-800: #BA6C7A; /* deep-soft-pink */
+  --color-secondary-900: #A3505F; /* darkest-soft-pink */
+
+  /* Accent Colors */
+  --color-accent: #FF69B4; /* hot-pink */
+  --color-accent-50: #FFF0F8; /* very-light-hot-pink */
+  --color-accent-100: #FFE1F1; /* lighter-hot-pink */
+  --color-accent-200: #FFC3E3; /* light-hot-pink */
+  --color-accent-300: #FF94D0; /* hot-pink-300 */
+  --color-accent-400: #FF69B4; /* hot-pink-base */
+  --color-accent-500: #FF1493; /* deep-hot-pink */
+  --color-accent-600: #E6007A; /* darker-hot-pink */
+  --color-accent-700: #CC0066; /* darkest-hot-pink */
+  --color-accent-800: #B30052; /* very-dark-hot-pink */
+  --color-accent-900: #99003D; /* ultra-dark-hot-pink */
+
+  /* Background Colors */
+  --color-background: #FAFAFA; /* warm-gray-50 */
+  --color-surface: #FFFFFF; /* white */
+  --color-surface-secondary: #F7FAFC; /* gray-50 */
+
+  /* Text Colors */
+  --color-text-primary: #2D3748; /* gray-800 */
+  --color-text-secondary: #718096; /* gray-500 */
+  --color-text-muted: #A0AEC0; /* gray-400 */
+  --color-text-inverse: #FFFFFF; /* white */
+
+  /* Status Colors */
+  --color-success: #48BB78; /* green-400 */
+  --color-success-50: #F0FFF4; /* green-50 */
+  --color-success-100: #C6F6D5; /* green-100 */
+  --color-success-500: #48BB78; /* green-400 */
+  --color-success-600: #38A169; /* green-500 */
+  --color-success-700: #2F855A; /* green-600 */
+
+  --color-warning: #ED8936; /* orange-400 */
+  --color-warning-50: #FFFAF0; /* orange-50 */
+  --color-warning-100: #FEEBC8; /* orange-100 */
+  --color-warning-500: #ED8936; /* orange-400 */
+  --color-warning-600: #DD6B20; /* orange-500 */
+  --color-warning-700: #C05621; /* orange-600 */
+
+  --color-error: #E53E3E; /* red-500 */
+  --color-error-50: #FED7D7; /* red-100 */
+  --color-error-100: #FEB2B2; /* red-200 */
+  --color-error-500: #E53E3E; /* red-500 */
+  --color-error-600: #C53030; /* red-600 */
+  --color-error-700: #9B2C2C; /* red-700 */
+
+  /* Border Colors */
+  --color-border: #E2E8F0; /* gray-200 */
+  --color-border-light: #F7FAFC; /* gray-50 */
+  --color-border-focus: #FFB6C1; /* light-pink */
+
+  /* Shadow Colors */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+
+  /* Easing Functions */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .font-data {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium transition-all duration-150 ease-out hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-text-primary px-4 py-2 rounded-lg font-medium transition-all duration-150 ease-out hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-opacity-50;
+  }
+
+  .card {
+    @apply bg-surface rounded-lg shadow-sm border border-border p-6 transition-all duration-150 ease-out;
+  }
+
+  .card-hover {
+    @apply hover:shadow-md hover:-translate-y-1;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-150 ease-out;
+  }
+
+  .text-data {
+    @apply font-data text-sm tabular-nums;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn var(--duration-normal) var(--ease-out);
+  }
+
+  .animate-slide-up {
+    animation: slideUp var(--duration-normal) var(--ease-out);
+  }
+
+  .animate-scale-in {
+    animation: scaleIn var(--duration-fast) var(--ease-out);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .transition-smooth {
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+
+  .transition-layout {
+    transition: all var(--duration-normal) var(--ease-out);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-floating {
+    box-shadow: var(--shadow-lg);
+  }
+}

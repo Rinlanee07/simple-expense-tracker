@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add/Edit Expense - Simple Expense Tracker</title>
+    <link rel="stylesheet" href="../css/main.css" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsimpleexp2446back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+</head>
+<body class="bg-background min-h-screen">
+    <!-- Header -->
+    <header class="bg-surface shadow-soft border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-semibold text-text-primary">Simple Expense Tracker</h1>
+                    </div>
+                </div>
+                <nav class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="expense_dashboard.html" class="text-text-secondary hover:text-text-primary px-3 py-2 rounded-md text-sm font-medium transition-smooth">Dashboard</a>
+                        <a href="add_edit_expense_modal.html" class="bg-primary-100 text-primary-700 px-3 py-2 rounded-md text-sm font-medium">Add Expense</a>
+                    </div>
+                </nav>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-text-secondary hover:text-text-primary p-2 rounded-md transition-smooth">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden hidden border-t border-border">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="expense_dashboard.html" class="text-text-secondary hover:text-text-primary block px-3 py-2 rounded-md text-base font-medium transition-smooth">Dashboard</a>
+                    <a href="add_edit_expense_modal.html" class="bg-primary-100 text-primary-700 block px-3 py-2 rounded-md text-base font-medium">Add Expense</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="expense_dashboard.html" class="inline-flex items-center text-text-secondary hover:text-text-primary transition-smooth">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h2 id="pageTitle" class="text-3xl font-bold text-text-primary">Add New Expense</h2>
+            <p class="mt-2 text-text-secondary">Record your expense details with category and description for better tracking</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Form -->
+            <div class="lg:col-span-2">
+                <div class="card animate-fade-in">
+                    <form id="expenseForm" class="space-y-6">
+                        <!-- Amount Field -->
+                        <div>
+                            <label for="expenseAmount" class="block text-sm font-medium text-text-secondary mb-2">
+                                Amount <span class="text-error">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-text-muted text-lg font-semibold">$</span>
+                                </div>
+                                <input type="number" id="expenseAmount" step="0.01" min="0" class="input-field pl-8 text-lg font-data" placeholder="0.00" required />
+                            </div>
+                            <p id="amountError" class="text-error text-sm mt-1 hidden">Please enter a valid amount</p>
+                            <p class="text-text-muted text-sm mt-1">Enter the expense amount in USD</p>
+                        </div>
+
+                        <!-- Category Field -->
+                        <div>
+                            <label for="expenseCategory" class="block text-sm font-medium text-text-secondary mb-2">
+                                Category <span class="text-error">*</span>
+                            </label>
+                            <select id="expenseCategory" class="input-field" required>
+                                <option value>Select a category</option>
+                                <option value="Food">🍽️ Food & Dining</option>
+                                <option value="Transport">🚗 Transport & Travel</option>
+                                <option value="Entertainment">🎬 Entertainment & Fun</option>
+                                <option value="Bills">📄 Bills & Utilities</option>
+                            </select>
+                            <p id="categoryError" class="text-error text-sm mt-1 hidden">Please select a category</p>
+                            <p class="text-text-muted text-sm mt-1">Choose the most appropriate category for this expense</p>
+                        </div>
+
+                        <!-- Date Field -->
+                        <div>
+                            <label for="expenseDate" class="block text-sm font-medium text-text-secondary mb-2">
+                                Date <span class="text-error">*</span>
+                            </label>
+                            <input type="date" id="expenseDate" class="input-field font-data" required />
+                            <p id="dateError" class="text-error text-sm mt-1 hidden">Please select a valid date</p>
+                            <p class="text-text-muted text-sm mt-1">When did this expense occur?</p>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div>
+                            <label for="expenseDescription" class="block text-sm font-medium text-text-secondary mb-2">
+                                Description
+                            </label>
+                            <textarea id="expenseDescription" rows="4" class="input-field resize-none" placeholder="Enter a brief description of the expense (optional)..."></textarea>
+                            <p class="text-text-muted text-sm mt-1">Add any additional details about this expense</p>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border">
+                            <button type="submit" id="saveExpense" class="btn-primary flex-1 sm:flex-none inline-flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span id="saveButtonText">Save Expense</span>
+                            </button>
+                            <button type="button" id="clearForm" class="btn-secondary flex-1 sm:flex-none inline-flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Clear Form
+                            </button>
+                            <a href="expense_dashboard.html" class="btn-secondary flex-1 sm:flex-none inline-flex items-center justify-center text-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Quick Tips Card -->
+                <div class="card bg-primary-50 border-primary-200 animate-slide-up">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-primary-800">Quick Tips</h3>
+                            <div class="mt-2 text-sm text-primary-700">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Be specific in your descriptions to track spending patterns better</li>
+                                    <li>Choose the most accurate category to get meaningful insights</li>
+                                    <li>Record expenses as soon as possible to avoid forgetting details</li>
+                                    <li>Use the dashboard to review your spending trends regularly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Overview Card -->
+                <div class="card animate-slide-up" style="animation-delay: 100ms;">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Category Overview</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="text-center p-3 bg-secondary-50 rounded-lg border border-secondary-200 hover:bg-secondary-100 transition-smooth cursor-pointer" onclick="selectCategory('Food')">
+                            <div class="text-2xl mb-2">🍽️</div>
+                            <p class="text-sm font-medium text-text-primary">Food</p>
+                            <p class="text-xs text-text-secondary">Meals & Groceries</p>
+                        </div>
+                        <div class="text-center p-3 bg-accent-50 rounded-lg border border-accent-200 hover:bg-accent-100 transition-smooth cursor-pointer" onclick="selectCategory('Transport')">
+                            <div class="text-2xl mb-2">🚗</div>
+                            <p class="text-sm font-medium text-text-primary">Transport</p>
+                            <p class="text-xs text-text-secondary">Travel & Commute</p>
+                        </div>
+                        <div class="text-center p-3 bg-warning-50 rounded-lg border border-warning-200 hover:bg-warning-100 transition-smooth cursor-pointer" onclick="selectCategory('Entertainment')">
+                            <div class="text-2xl mb-2">🎬</div>
+                            <p class="text-sm font-medium text-text-primary">Entertainment</p>
+                            <p class="text-xs text-text-secondary">Fun & Recreation</p>
+                        </div>
+                        <div class="text-center p-3 bg-error-50 rounded-lg border border-error-200 hover:bg-error-100 transition-smooth cursor-pointer" onclick="selectCategory('Bills')">
+                            <div class="text-2xl mb-2">📄</div>
+                            <p class="text-sm font-medium text-text-primary">Bills</p>
+                            <p class="text-xs text-text-secondary">Utilities & Services</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Expenses Preview -->
+                <div class="card animate-slide-up" style="animation-delay: 200ms;">
+                    <h3 class="text-lg font-semibold text-text-primary mb-4">Recent Expenses</h3>
+                    <div id="recentExpenses" class="space-y-3">
+                        <!-- Recent expenses will be populated by JavaScript -->
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-border">
+                        <a href="expense_dashboard.html" class="text-primary-600 hover:text-primary-700 text-sm font-medium transition-smooth">
+                            View all expenses →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-surface rounded-lg shadow-floating max-w-sm w-full animate-scale-in">
+                <div class="p-6 text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-success-100 mb-4">
+                        <svg class="h-6 w-6 text-success-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-text-primary mb-2" id="successTitle">Expense Saved!</h3>
+                    <p class="text-sm text-text-secondary mb-6" id="successMessage">Your expense has been successfully recorded.</p>
+                    <div class="flex gap-3">
+                        <button id="addAnother" class="btn-primary flex-1">Add Another</button>
+                        <a href="expense_dashboard.html" class="btn-secondary flex-1 text-center">View Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-surface rounded-lg shadow-floating max-w-sm w-full animate-scale-in">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <svg class="h-6 w-6 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-medium text-text-primary">Unsaved Changes</h3>
+                            <p class="mt-2 text-sm text-text-secondary">You have unsaved changes. Are you sure you want to leave without saving?</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button id="cancelLeave" class="btn-secondary">Stay</button>
+                        <button id="confirmLeave" class="bg-warning text-white px-4 py-2 rounded-lg font-medium hover:bg-warning-600 transition-smooth">Leave</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentEditId = null;
+        let hasUnsavedChanges = false;
+        let originalFormData = {};
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeForm();
+            setupEventListeners();
+            loadRecentExpenses();
+            checkForEditMode();
+        });
+
+        function initializeForm() {
+            setDefaultDate();
+            captureOriginalFormData();
+        }
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+        }
+
+        function captureOriginalFormData() {
+            originalFormData = {
+                amount: document.getElementById('expenseAmount').value,
+                category: document.getElementById('expenseCategory').value,
+                date: document.getElementById('expenseDate').value,
+                description: document.getElementById('expenseDescription').value
+            };
+        }
+
+        function checkForEditMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            
+            if (editId) {
+                loadExpenseForEdit(parseInt(editId));
+            }
+        }
+
+        function loadExpenseForEdit(id) {
+            const expenses = getExpensesFromStorage();
+            const expense = expenses.find(e => e.id === id);
+            
+            if (expense) {
+                currentEditId = id;
+                document.getElementById('pageTitle').textContent = 'Edit Expense';
+                document.getElementById('saveButtonText').textContent = 'Update Expense';
+                
+                document.getElementById('expenseAmount').value = expense.amount;
+                document.getElementById('expenseCategory').value = expense.category;
+                document.getElementById('expenseDate').value = expense.date;
+                document.getElementById('expenseDescription').value = expense.description || '';
+                
+                captureOriginalFormData();
+            }
+        }
+
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('expenseForm').addEventListener('submit', saveExpense);
+            
+            // Form controls
+            document.getElementById('clearForm').addEventListener('click', clearForm);
+            document.getElementById('addAnother').addEventListener('click', addAnother);
+            
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            
+            // Track form changes
+            const formInputs = document.querySelectorAll('#expenseForm input, #expenseForm select, #expenseForm textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('input', trackFormChanges);
+            });
+            
+            // Modal controls
+            document.getElementById('cancelLeave').addEventListener('click', closeConfirmationModal);
+            document.getElementById('confirmLeave').addEventListener('click', confirmLeave);
+            
+            // Close modals on outside click
+            document.getElementById('successModal').addEventListener('click', function(e) {
+                if (e.target === this) closeSuccessModal();
+            });
+            
+            document.getElementById('confirmationModal').addEventListener('click', function(e) {
+                if (e.target === this) closeConfirmationModal();
+            });
+            
+            // Prevent accidental navigation
+            window.addEventListener('beforeunload', function(e) {
+                if (hasUnsavedChanges) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+            
+            // Handle navigation links
+            document.querySelectorAll('a[href="expense_dashboard.html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (hasUnsavedChanges) {
+                        e.preventDefault();
+                        showConfirmationModal(this.href);
+                    }
+                });
+            });
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function trackFormChanges() {
+            const currentData = {
+                amount: document.getElementById('expenseAmount').value,
+                category: document.getElementById('expenseCategory').value,
+                date: document.getElementById('expenseDate').value,
+                description: document.getElementById('expenseDescription').value
+            };
+            
+            hasUnsavedChanges = JSON.stringify(currentData) !== JSON.stringify(originalFormData);
+        }
+
+        function selectCategory(category) {
+            document.getElementById('expenseCategory').value = category;
+            trackFormChanges();
+            
+            // Add visual feedback
+            const categoryCards = document.querySelectorAll('[onclick^="selectCategory"]');
+            categoryCards.forEach(card => card.classList.remove('ring-2', 'ring-primary'));
+            event.currentTarget.classList.add('ring-2', 'ring-primary');
+        }
+
+        function saveExpense(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) return;
+            
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const category = document.getElementById('expenseCategory').value;
+            const date = document.getElementById('expenseDate').value;
+            const description = document.getElementById('expenseDescription').value;
+            
+            let expenses = getExpensesFromStorage();
+            
+            if (currentEditId) {
+                // Update existing expense
+                const index = expenses.findIndex(e => e.id === currentEditId);
+                if (index !== -1) {
+                    expenses[index] = { ...expenses[index], amount, category, date, description };
+                }
+                showSuccessModal('Expense Updated!', 'Your expense has been successfully updated.');
+            } else {
+                // Create new expense
+                const newExpense = {
+                    id: Date.now(),
+                    amount,
+                    category,
+                    date,
+                    description
+                };
+                expenses.unshift(newExpense);
+                showSuccessModal('Expense Saved!', 'Your expense has been successfully recorded.');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+            
+            // Reset form state
+            hasUnsavedChanges = false;
+            captureOriginalFormData();
+        }
+
+        function validateForm() {
+            let isValid = true;
+            clearValidationErrors();
+            
+            const amount = document.getElementById('expenseAmount').value;
+            const category = document.getElementById('expenseCategory').value;
+            const date = document.getElementById('expenseDate').value;
+            
+            if (!amount || parseFloat(amount) <= 0) {
+                showError('amountError', 'Please enter a valid amount greater than 0');
+                isValid = false;
+            }
+            
+            if (!category) {
+                showError('categoryError', 'Please select a category');
+                isValid = false;
+            }
+            
+            if (!date) {
+                showError('dateError', 'Please select a date');
+                isValid = false;
+            } else {
+                const selectedDate = new Date(date);
+                const today = new Date();
+                today.setHours(23, 59, 59, 999);
+                
+                if (selectedDate > today) {
+                    showError('dateError', 'Date cannot be in the future');
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+            
+            // Scroll to first error
+            if (elementId === 'amountError') {
+                document.getElementById('expenseAmount').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function clearValidationErrors() {
+            ['amountError', 'categoryError', 'dateError'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function clearForm() {
+            if (hasUnsavedChanges) {
+                if (!confirm('Are you sure you want to clear all form data?')) {
+                    return;
+                }
+            }
+            
+            document.getElementById('expenseForm').reset();
+            setDefaultDate();
+            clearValidationErrors();
+            
+            // Reset edit mode
+            currentEditId = null;
+            document.getElementById('pageTitle').textContent = 'Add New Expense';
+            document.getElementById('saveButtonText').textContent = 'Save Expense';
+            
+            // Reset form state
+            hasUnsavedChanges = false;
+            captureOriginalFormData();
+            
+            // Remove category selection
+            document.querySelectorAll('[onclick^="selectCategory"]').forEach(card => {
+                card.classList.remove('ring-2', 'ring-primary');
+            });
+            
+            // Add animation feedback
+            const form = document.getElementById('expenseForm');
+            form.classList.add('animate-pulse');
+            setTimeout(() => {
+                form.classList.remove('animate-pulse');
+            }, 500);
+        }
+
+        function showSuccessModal(title, message) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        function addAnother() {
+            closeSuccessModal();
+            clearForm();
+            document.getElementById('expenseAmount').focus();
+        }
+
+        function showConfirmationModal(targetUrl) {
+            document.getElementById('confirmationModal').classList.remove('hidden');
+            document.getElementById('confirmLeave').onclick = () => {
+                hasUnsavedChanges = false;
+                window.location.href = targetUrl;
+            };
+        }
+
+        function closeConfirmationModal() {
+            document.getElementById('confirmationModal').classList.add('hidden');
+        }
+
+        function confirmLeave() {
+            hasUnsavedChanges = false;
+            closeConfirmationModal();
+        }
+
+        function getExpensesFromStorage() {
+            const savedExpenses = localStorage.getItem('expenses');
+            return savedExpenses ? JSON.parse(savedExpenses) : [];
+        }
+
+        function loadRecentExpenses() {
+            const expenses = getExpensesFromStorage();
+            const recentExpenses = expenses.slice(0, 3);
+            const container = document.getElementById('recentExpenses');
+            
+            if (recentExpenses.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <svg class="mx-auto h-8 w-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <p class="mt-2 text-sm text-text-muted">No expenses yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = recentExpenses.map(expense => `
+                <div class="flex items-center justify-between p-3 bg-surface-secondary rounded-lg">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCategoryBadgeClass(expense.category)}">
+                                ${expense.category}
+                            </span>
+                        </div>
+                        <p class="text-sm text-text-secondary mt-1 font-data">${formatDate(expense.date)}</p>
+                        ${expense.description ? `<p class="text-xs text-text-muted mt-1 truncate">${expense.description}</p>` : ''}
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-semibold text-text-primary font-data">$${expense.amount.toFixed(2)}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryBadgeClass(category) {
+            const classes = {
+                'Food': 'bg-secondary-100 text-secondary-800',
+                'Transport': 'bg-accent-100 text-accent-800',
+                'Entertainment': 'bg-warning-100 text-warning-800',
+                'Bills': 'bg-error-100 text-error-800'
+            };
+            return classes[category] || 'bg-gray-100 text-gray-800';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                document.getElementById('expenseForm').dispatchEvent(new Event('submit'));
+            }
+            
+            // Ctrl/Cmd + R to clear form
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                e.preventDefault();
+                clearForm();
+            }
+            
+            // Escape to go back to dashboard
+            if (e.key === 'Escape' && !hasUnsavedChanges) {
+                window.location.href = 'expense_dashboard.html';
+            }
+        });
+
+        // Auto-focus on amount field when page loads
+        window.addEventListener('load', function() {
+            if (!currentEditId) {
+                document.getElementById('expenseAmount').focus();
+            }
+        });
+    </script>
+</body>
+</html>
